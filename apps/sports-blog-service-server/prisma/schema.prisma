@@ -1,0 +1,34 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Image {
+  base64    String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+  url       String?
+}
+
+model Sport {
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  name      String?
+  updatedAt DateTime  @updatedAt
+}
+
+model Article {
+  content   String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  sport     Sport?   @relation(fields: [sportId], references: [id])
+  sportId   String?
+  title     String?
+  updatedAt DateTime @updatedAt
+}
